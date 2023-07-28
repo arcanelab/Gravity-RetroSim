@@ -478,7 +478,7 @@ void gravity_class_free(gravity_vm *vm, gravity_class_t *c)
     gravity_class_free_internal(vm, c, true);
 }
 
-inline gravity_object_t *gravity_class_lookup(gravity_class_t *c, gravity_value_t key)
+gravity_object_t *gravity_class_lookup(gravity_class_t *c, gravity_value_t key)
 {
     while (c)
     {
@@ -501,7 +501,7 @@ gravity_class_t *gravity_class_lookup_class_identifier(gravity_class_t *c, const
     return NULL;
 }
 
-inline gravity_closure_t *gravity_class_lookup_closure(gravity_class_t *c, gravity_value_t key)
+gravity_closure_t *gravity_class_lookup_closure(gravity_class_t *c, gravity_value_t key)
 {
     gravity_object_t *obj = gravity_class_lookup(c, key);
     if (obj && OBJECT_ISA_CLOSURE(obj))
@@ -2910,7 +2910,7 @@ void gravity_range_blacken(gravity_vm *vm, gravity_range_t *range)
 
 // MARK: -
 
-inline gravity_value_t gravity_string_to_value(gravity_vm *vm, const char *s, uint32_t len)
+gravity_value_t gravity_string_to_value(gravity_vm *vm, const char *s, uint32_t len)
 {
     gravity_string_t *obj = mem_alloc(NULL, sizeof(gravity_string_t));
     if (len == AUTOLENGTH)
@@ -2953,14 +2953,14 @@ gravity_string_t *gravity_string_new(gravity_vm *vm, char *s, uint32_t len, uint
     return obj;
 }
 
-inline void gravity_string_set(gravity_string_t *obj, char *s, uint32_t len)
+void gravity_string_set(gravity_string_t *obj, char *s, uint32_t len)
 {
     obj->s = (char *)s;
     obj->len = len;
     obj->hash = gravity_hash_compute_buffer((const char *)s, len);
 }
 
-inline void gravity_string_free(gravity_vm *vm, gravity_string_t *value)
+void gravity_string_free(gravity_vm *vm, gravity_string_t *value)
 {
 #pragma unused(vm)
     DEBUG_FREE("FREE %s", gravity_object_debug((gravity_object_t *)value, true));
@@ -2984,37 +2984,37 @@ void gravity_string_blacken(gravity_vm *vm, gravity_string_t *string)
     gravity_vm_memupdate(vm, gravity_string_size(vm, string));
 }
 
-inline gravity_value_t gravity_value_from_error(const char *msg)
+gravity_value_t gravity_value_from_error(const char *msg)
 {
     return ((gravity_value_t){.isa = NULL, .p = ((gravity_object_t *)msg)});
 }
 
-inline gravity_value_t gravity_value_from_object(void *obj)
+gravity_value_t gravity_value_from_object(void *obj)
 {
     return ((gravity_value_t){.isa = (((gravity_object_t *)(obj))->isa), .p = (gravity_object_t *)(obj)});
 }
 
-inline gravity_value_t gravity_value_from_int(gravity_int_t n)
+gravity_value_t gravity_value_from_int(gravity_int_t n)
 {
     return ((gravity_value_t){.isa = gravity_class_int, .n = (n)});
 }
 
-inline gravity_value_t gravity_value_from_float(gravity_float_t f)
+gravity_value_t gravity_value_from_float(gravity_float_t f)
 {
     return ((gravity_value_t){.isa = gravity_class_float, .f = (f)});
 }
 
-inline gravity_value_t gravity_value_from_null(void)
+gravity_value_t gravity_value_from_null(void)
 {
     return ((gravity_value_t){.isa = gravity_class_null, .n = 0});
 }
 
-inline gravity_value_t gravity_value_from_undefined(void)
+gravity_value_t gravity_value_from_undefined(void)
 {
     return ((gravity_value_t){.isa = gravity_class_null, .n = 1});
 }
 
-inline gravity_value_t gravity_value_from_bool(bool b)
+gravity_value_t gravity_value_from_bool(bool b)
 {
     return ((gravity_value_t){.isa = gravity_class_bool, .n = (b)});
 }
