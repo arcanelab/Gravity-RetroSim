@@ -6,9 +6,11 @@ if is_mode("debug") then
     add_defines("DEBUG")
     set_symbols("debug")
     set_optimize("none")
+    if is_plat("windows") then set_runtimes("MDd") end
 else 
     set_symbols("hidden")
     set_optimize("fastest")
+    if is_plat("windows") then set_runtimes("MD") end
 end
 
 if is_plat("windows") then
